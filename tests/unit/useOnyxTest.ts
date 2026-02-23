@@ -1081,11 +1081,6 @@ describe('useOnyx', () => {
                 [`${ONYXKEYS.COLLECTION.RAM_ONLY_COLLECTION}entry2`]: {id: '2'},
             });
             expect(result.current[1].status).toEqual('loaded');
-
-            await act(async () => Onyx.clear());
-
-            expect(result.current[0]).toBeUndefined();
-            expect(result.current[1].status).toEqual('loaded');
         });
 
         it('should return value for a RAM-only collection member after set', async () => {

@@ -3118,6 +3118,7 @@ describe('RAM-only keys should not read from storage', () => {
     let cache: typeof OnyxCache;
 
     beforeEach(() => {
+        // Resets the deferred init task before each test.
         Object.assign(OnyxUtils.getDeferredInitTask(), createDeferredTask());
         cache = require('../../lib/OnyxCache').default;
     });
@@ -3176,7 +3177,7 @@ describe('RAM-only keys should not read from storage', () => {
         });
         await act(async () => waitForPromisesToResolve());
 
-        expect(receivedCollection!).toBeUndefined();
+        expect(receivedCollection).toBeUndefined();
         expect(cache.get(collectionMember1)).toBeUndefined();
         expect(cache.get(collectionMember2)).toBeUndefined();
 

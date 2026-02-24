@@ -150,8 +150,12 @@ const provider: StorageProvider<NitroSQLiteConnection | undefined> = {
         const patchQueryArguments: string[][] = [];
 
         // Query to fully replace the nested objects of the DB value.
+        // NOTE: The JSON() wrapper around the replacement value is required here. Unlike JSON_PATCH (which
+        // parses both arguments as JSON internally), JSON_REPLACE treats a plain TEXT binding as a quoted
+        // JSON string. Without JSON(), objects would be stored as string values (e.g. "{...}") instead of
+        // actual JSON objects, corrupting the stored data.
         const replaceQuery = `UPDATE keyvaluepairs
-            SET valueJSON = JSON_REPLACE(valueJSON, ?, ?)
+            SET valueJSON = JSON_REPLACE(valueJSON, ?, JSON(?))
             WHERE record_key = ?;
         `;
         const replaceQueryArguments: string[][] = [];
